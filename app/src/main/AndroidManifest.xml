@@ -13,6 +13,12 @@
         android:theme="@style/Theme.SmartBox19nov"
         tools:targetApi="31">
         <activity
+            android:name=".SmartBoxEmulator"
+            android:exported="false" />
+        <activity
+            android:name=".OTPGenerator"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
