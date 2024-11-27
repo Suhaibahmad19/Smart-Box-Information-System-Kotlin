@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartBox19nov"
         tools:targetApi="31">
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -25,6 +24,10 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".TrackParcelActivity" />
 
+        <activity android:name=".AdminPanel" />
+        <activity android:name=".ManageUsersActivity" />
+        <activity android:name=".SuperAdminActivity" />
+        <activity android:name=".ParcelCreateActivity"/>
     </application>
 
 </manifest>
