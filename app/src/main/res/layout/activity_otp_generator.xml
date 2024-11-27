@@ -18,13 +18,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/wantToEnter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:text = "Want to Access SmartBox, Verify YourSelf"
+            android:textSize="28sp"/>
         <!-- TextView to display generated OTP -->
         <TextView
             android:id="@+id/otpTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Generated OTP will appear here"
+            android:text="HARDCODED Generated OTP:"
             android:textSize="18sp" />
 
         <!-- Button to generate OTP -->
