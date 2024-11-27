@@ -44,5 +44,9 @@
         android:textColor="#FFFFFF"
         android:layout_below="@id/btnLogin"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+
+        android:onClick="showSmartBox"
+        />
+
 </RelativeLayout>
