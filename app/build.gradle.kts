@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.gson)
 
+    implementation(libs.json)  // This refers to the json dependency defined in libs.versions.toml
+
 }
 
 

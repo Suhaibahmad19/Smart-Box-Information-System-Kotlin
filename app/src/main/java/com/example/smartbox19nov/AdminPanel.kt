@@ -29,9 +29,9 @@ class AdminPanel : AppCompatActivity() {
         }
 
 
-        controlSystemButton.setOnClickListener {
-            startActivity(Intent(this, ViewSystemSettings::class.java))
-        }
+//        controlSystemButton.setOnClickListener {
+//            startActivity(Intent(this, ViewSystemSettings::class.java))
+//        }
     }
 }
 
