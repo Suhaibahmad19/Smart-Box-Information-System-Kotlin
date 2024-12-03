@@ -25,6 +25,9 @@
         <activity android:name=".ManageUsersActivity" />
         <activity android:name=".SuperAdminActivity" />
         <activity android:name=".ParcelCreateActivity"/>
+        <activity android:name=".ViewLogsActivity" />
+        <activity android:name=".ViewSystemSettings" />
+
     </application>
 
 </manifest>

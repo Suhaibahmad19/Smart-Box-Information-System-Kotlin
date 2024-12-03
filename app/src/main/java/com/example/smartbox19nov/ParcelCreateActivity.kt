@@ -4,9 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.*
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import org.json.JSONObject
 import kotlin.random.Random
 
 class ParcelCreateActivity : AppCompatActivity() {
+    private val client = OkHttpClient()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_parcel)
@@ -48,6 +54,7 @@ class ParcelCreateActivity : AppCompatActivity() {
             val selectedDimension = dimensionsSpinner.selectedItem.toString()
             val selectedDestination = destinationSpinner.selectedItem.toString()
             val selectedFragileId = fragileRadioGroup.checkedRadioButtonId
+            val isFragile = selectedFragileId == R.id.fragileYesRadioButton
 
             // Validation
             if (selectedDimension == "Select Size") {
@@ -65,13 +72,48 @@ class ParcelCreateActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Show success message
-            Toast.makeText(this, "Parcel Created Successfully!", Toast.LENGTH_SHORT).show()
+            // Show success message and create a parcel in the backend
+            createParcelBackend(selectedDimension, selectedDestination, isFragile) {
+                if (it) {
+                    Toast.makeText(this, "Parcel Created Successfully!", Toast.LENGTH_SHORT).show()
 
-            // Navigate back to SuperAdminActivity
-            val intent = Intent(this, SuperAdminActivity::class.java)
-            startActivity(intent)
-            finish() // Close the current activity
+                    // Navigate back to SuperAdminActivity
+                    val intent = Intent(this, SuperAdminActivity::class.java)
+                    startActivity(intent)
+                    finish() // Close the current activity
+                } else {
+                    Toast.makeText(this, "Failed to create parcel. Try again.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun createParcelBackend(size: String, destination: String, isFragile: Boolean, callback: (Boolean) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Create JSON body
+                val jsonBody = JSONObject()
+                jsonBody.put("size", size.uppercase())
+                jsonBody.put("destination", destination)
+                jsonBody.put("isFragile", isFragile)
+
+                // Build request
+                val request = Request.Builder()
+                    .url("http://localhost:8080/api/v1/create-parcel")
+                    .post(RequestBody.create("application/json".toMediaType(), jsonBody.toString()))
+                    .build()
+
+                // Execute request
+                val response = client.newCall(request).execute()
+                withContext(Dispatchers.Main) {
+                    callback(response.isSuccessful)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    callback(false)
+                }
+            }
         }
     }
 }

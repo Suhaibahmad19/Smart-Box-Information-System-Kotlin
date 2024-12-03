@@ -1,5 +1,6 @@
 package com.example.smartbox19nov
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -31,6 +32,9 @@ class MainActivity : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 // TODO: Add login authentication logic
                 Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, AdminPanel::class.java)
+                startActivity(intent)
+                finish()
             } else {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
