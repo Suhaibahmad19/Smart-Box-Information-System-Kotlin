@@ -25,12 +25,13 @@ class AdminPanel : AppCompatActivity() {
 
 
         viewLogsButton.setOnClickListener {
-            // Placeholder for View Logs screen
+            startActivity(Intent(this, ViewLogsActivity::class.java))
         }
 
-        controlSystemButton.setOnClickListener {
-            // Placeholder for Control System Settings screen
-        }
+
+//        controlSystemButton.setOnClickListener {
+//            startActivity(Intent(this, ViewSystemSettings::class.java))
+//        }
     }
 }
 

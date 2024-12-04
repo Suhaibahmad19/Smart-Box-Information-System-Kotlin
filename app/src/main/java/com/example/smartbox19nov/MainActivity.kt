@@ -17,6 +17,20 @@ class MainActivity : AppCompatActivity() {
         btnTrackParcel.setOnClickListener {
             val intent = Intent(this, TrackParcelActivity::class.java)
             startActivity(intent)
+
+        loginButton.setOnClickListener {
+            val email = emailInput.text.toString()
+            val password = passwordInput.text.toString()
+
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                // TODO: Add login authentication logic
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, AdminPanel::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnLogin.setOnClickListener {
