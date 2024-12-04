@@ -31,7 +31,7 @@ class ViewLogsActivity : AppCompatActivity() {
     }
 
     private fun fetchOtpLogs() {
-        val url = "http://10.0.2.2:8080/api/v1/get-otp-logs" // Replace with the actual backend endpoint for OTP logs
+        val url = "http://10.0.2.2:8080/api/v1/otp-logs" // Replace with the actual backend endpoint for OTP logs
 
         Log.d("ViewLogsActivity", "Fetching OTP logs from URL: $url")
 
@@ -113,9 +113,21 @@ class ViewLogsActivity : AppCompatActivity() {
 
             for (i in 0 until jsonArray.length()) {
                 val jsonObject = jsonArray.getJSONObject(i)
-                val otp = jsonObject.getString("otp")
-                val phoneNumber = jsonObject.getString("phoneNumber")
-                otpLogs.append("OTP: $otp, Phone: $phoneNumber\n")
+
+                // Extract required fields
+                val otpId = jsonObject.optString("otpId", "Unknown OTP ID")
+                val phoneNumber = jsonObject.optString("phoneNumber", "Unknown Phone")
+                val status = jsonObject.optString("status", "Unknown Status")
+                val error = if (jsonObject.isNull("error")) "NO" else "YES"
+                val timestamp = jsonObject.optLong("timestamp", 0L)
+
+                // Format the timestamp
+                val formattedDate = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
+                    .format(java.util.Date(timestamp))
+
+                otpLogs.append(
+                    /*"OTP ID: $otpId\n*/"Phone: $phoneNumber\nStatus: $status\nError: $error\nTime: $formattedDate\n\n"
+                )
             }
 
             if (otpLogs.isEmpty()) "No OTP logs available" else otpLogs.toString()
@@ -124,6 +136,7 @@ class ViewLogsActivity : AppCompatActivity() {
             "Error parsing OTP logs"
         }
     }
+
 
     private fun parseParcelLogs(jsonResponse: String): String {
         return try {
@@ -150,7 +163,7 @@ class ViewLogsActivity : AppCompatActivity() {
                     .format(java.util.Date(createdAt))
 
                 parcelLogs.append(
-                    "Parcel: $parcelId, Size: $size, Destination: $destination, Fragile: $isFragile, Created At: $createdAtDate, Status: $status\n"
+                    "Parcel-ID: $parcelId, Size: $size, Destination: $destination, Fragile: $isFragile, Created At: $createdAtDate, Status: $status\n"
                 )
             }
 

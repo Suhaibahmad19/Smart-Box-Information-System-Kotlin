@@ -1,89 +1,67 @@
 package com.example.smartbox19nov
 
 import android.os.Bundle
-import android.text.TextUtils
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import okhttp3.*
 import org.json.JSONArray
+import org.json.JSONObject
 import java.io.IOException
 
-data class User(val username: String)
-
 class ManageUsersActivity : AppCompatActivity() {
-    private lateinit var adapter: UserAdapter
-    private val filteredUsers = mutableListOf<User>() // For dynamic filtering
+
+    private lateinit var usersRecyclerView: RecyclerView
+    private lateinit var userAdapter: UserAdapter
+    private val client = OkHttpClient()
+    private val users = mutableListOf<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_users)
 
-        val usersRecyclerView: RecyclerView = findViewById(R.id.usersRecyclerView)
-        val searchView: SearchView = findViewById(R.id.searchView)
+        usersRecyclerView = findViewById(R.id.usersRecyclerView)
+        userAdapter = UserAdapter(users)
 
-        // Set up RecyclerView
-        adapter = UserAdapter(filteredUsers)
         usersRecyclerView.layoutManager = LinearLayoutManager(this)
-        usersRecyclerView.adapter = adapter
+        usersRecyclerView.adapter = userAdapter
 
         // Fetch users from backend
-        fetchUsersFromBackend()
-
-        // Implement search functionality
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                filterUsers(newText)
-                return true
-            }
-        })
+        fetchUsers()
     }
 
-    private fun fetchUsersFromBackend() {
-        // Replace with your backend URL
-        val url = "http://10.0.2.2:8080/api/v1/get-users"
+    private fun fetchUsers() {
+        val url = "http://10.0.2.2:8080/api/v1/get-users" // Replace with actual backend endpoint for users
 
-        val client = OkHttpClient()
+        Log.d("ManageUsersActivity", "Fetching users from URL: $url")
+
         val request = Request.Builder()
             .url(url)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // Handle network failure
+                Log.e("ManageUsersActivity", "Failed to fetch users: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(this@ManageUsersActivity, "Failed to load users", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onResponse(call: Call, response: Response) {
+                Log.d("ManageUsersActivity", "Users API response received. Status: ${response.code}")
                 if (response.isSuccessful) {
-                    response.body?.let { responseBody ->
-                        val json = responseBody.string()
-                        val jsonArray = JSONArray(json)
-
-                        val users = mutableListOf<User>()
-                        for (i in 0 until jsonArray.length()) {
-                            val jsonObject = jsonArray.getJSONObject(i)
-                            val username = jsonObject.getString("username")
-                            users.add(User(username))
-                        }
-
-                        // Update UI on the main thread
+                    val responseBody = response.body?.string()
+                    Log.d("ManageUsersActivity", "Users response body: $responseBody")
+                    responseBody?.let {
+                        parseUsers(it)
                         runOnUiThread {
-                            filteredUsers.clear()
-                            filteredUsers.addAll(users)
-                            adapter.notifyDataSetChanged()
+                            userAdapter.notifyDataSetChanged()
                         }
                     }
                 } else {
-                    // Handle server error
+                    Log.e("ManageUsersActivity", "Users API error: ${response.code}")
                     runOnUiThread {
                         Toast.makeText(this@ManageUsersActivity, "Error: ${response.code}", Toast.LENGTH_SHORT).show()
                     }
@@ -92,31 +70,37 @@ class ManageUsersActivity : AppCompatActivity() {
         })
     }
 
-//    private fun fetchUsersFromBackend() {
-//        val mockUsers = listOf(
-//            User(username = "Usman"),
-//            User(username = "Ali"),
-//            User(username = "Fatima")
-//        )
-//
-//        filteredUsers.clear()
-//        filteredUsers.addAll(mockUsers)
-//        adapter.notifyDataSetChanged()
-//    }
+    private fun parseUsers(jsonResponse: String) {
+        try {
+            // Parse the response as a JSONObject
+            val jsonObject = JSONObject(jsonResponse)
 
-
-    private fun filterUsers(query: String?) {
-        val allUsers = filteredUsers.toList() // Work on a copy of the current list
-        filteredUsers.clear()
-        if (TextUtils.isEmpty(query)) {
-            filteredUsers.addAll(allUsers)
-        } else {
-            val lowerCaseQuery = query!!.lowercase()
-            val filteredList = allUsers.filter { user ->
-                user.username.lowercase().contains(lowerCaseQuery)
+            // Check if the status is "SUCCESS"
+            val status = jsonObject.optString("status", "ERROR")
+            if (status != "SUCCESS") {
+                Log.e("ManageUsersActivity", "Error: ${jsonObject.optString("message", "Unknown error")}")
+                return
             }
-            filteredUsers.addAll(filteredList)
+
+            // Extract the users array
+            val usersArray = jsonObject.optJSONArray("users") ?: JSONArray()
+
+            // Clear the existing list of users
+            users.clear()
+
+            // Loop through the users array and extract user details
+            for (i in 0 until usersArray.length()) {
+                val userObject = usersArray.getJSONObject(i)
+                val name = userObject.optString("name", "Unknown Name")
+                val email = userObject.optString("email", "Unknown Email")
+                val role = userObject.optString("role", "Unknown Role")
+
+                users.add(User(email, name, role))
+            }
+
+        } catch (e: Exception) {
+            Log.e("ManageUsersActivity", "Error parsing users: ${e.message}")
         }
-        adapter.notifyDataSetChanged()
     }
+
 }

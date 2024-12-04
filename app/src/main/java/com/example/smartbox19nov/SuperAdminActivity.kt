@@ -10,10 +10,16 @@ class SuperAdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.super_admin) // Reference to your super_admin.xml layout
 
-        val createParcel: Button = findViewById(R.id.createParcelButton)
-
-        createParcel.setOnClickListener {
+        // Create Parcel button
+        val createParcelButton: Button = findViewById(R.id.createParcelButton)
+        createParcelButton.setOnClickListener {
             startActivity(Intent(this, ParcelCreateActivity::class.java))
+        }
+
+        // Assign Parcel to Rider button
+        val assignParcelButton: Button = findViewById(R.id.assignParcelToRiderButton)
+        assignParcelButton.setOnClickListener {
+            startActivity(Intent(this, AssignParcelActivity::class.java))
         }
     }
 }
