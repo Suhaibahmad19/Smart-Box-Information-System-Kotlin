@@ -284,7 +284,7 @@
                 app:layout_constraintTop_toTopOf="@+id/animatedIndicator43" />
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/textView44"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="S"
@@ -300,12 +300,41 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="496dp"
                 android:gravity="center"
-                android:text="By TEEN-DEVS"
+                android:text = "By TEEN-DEVS"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="16dp" />
 
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/vaultButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif-medium"
+        android:padding="16dp"
+        android:backgroundTint="#0199AB"
+        android:text="Vault is opened. Tap here to close"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/emulatorScreen"
+        app:layout_constraintEnd_toEndOf="@+id/emulatorScreen"
+        app:layout_constraintStart_toStartOf="@+id/emulatorScreen" />
+
+    <TextView
+        android:id="@+id/notifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif"
+        android:padding="16dp"
+        android:text="Oopsie daisy! The vault's empty—looks like your treasure either sailed away or hasn’t docked yet! 🏴‍☠️⏳"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/emulatorScreen"
+        app:layout_constraintStart_toStartOf="@+id/emulatorScreen"
+        app:layout_constraintTop_toBottomOf="@+id/emulatorScreen" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,36 +2,39 @@ package com.example.smartbox19nov
 import android.os.Parcel
 import android.os.Parcelable
 
-class PackageItem(val packageID:String) : Parcelable {
-
-    constructor(parcel: Parcel) : this(parcel.readString() ?: "")
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(packageID)
-    }
-
-    override fun describeContents(): Int = 0
-
-    companion object CREATOR : Parcelable.Creator<PackageItem> {
-        override fun createFromParcel(parcel: Parcel): PackageItem {
-            return PackageItem(parcel)
-        }
-
-        override fun newArray(size: Int): Array<PackageItem?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
 class SmartBox(
     val id: String,
     val type:Int,
-    private var packages: ArrayList<PackageItem>,
+    private var packages: ArrayList<ParcelPackage>,
     private var isOpen: Boolean
 ): Parcelable {
+    // Arrays for compartments
+    private lateinit var largeCompartments: ArrayList<String>
+    private lateinit var mediumCompartments: ArrayList<String>
+    private lateinit var smallCompartments: ArrayList<String>
+
+    // Secondary constructor for initialization based on type
+    constructor(
+        id: String,
+        type: Int,
+        packages: ArrayList<ParcelPackage>,
+        isOpen: Boolean,
+        largeCapacity: Int,
+        mediumCapacity: Int,
+        smallCapacity: Int
+    ) : this(id, type, packages, isOpen) {
+        when(type){
+            2->{
+                largeCompartments = arrayListOf("","","")
+                mediumCompartments = arrayListOf("","","")
+                smallCompartments = arrayListOf("","","","","")
+            }
+        }
+    }
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readInt(),
-        parcel.createTypedArrayList(PackageItem.CREATOR) ?: ArrayList(),
+        parcel.createTypedArrayList(ParcelPackage.CREATOR) ?: ArrayList(),
         parcel.readByte() != 0.toByte()
     )
     private var capacity: () -> Int = {
@@ -40,29 +43,90 @@ class SmartBox(
         else
             11
     }
-    private fun hasPackage(packageItem:PackageItem):Boolean{
+    private fun withdrawPackageExtender(
+        parcelPackage: ParcelPackage,
+        arrayOfCompartments:ArrayList<String>,
+        compartmentSizeMsg:String
+    ):String {
+        for (i in 0..<arrayOfCompartments.count()){
+            if(arrayOfCompartments[i] == parcelPackage.parcelID) {
+                packages.remove(parcelPackage)
+                arrayOfCompartments[i] = ""
+                return compartmentSizeMsg+i.toString()
+            }
+        }
+        return ""
+    }
+    fun withdrawPackage(parcelPackage: ParcelPackage):String{
+        return when(parcelPackage.size){
+            "Small"-> withdrawPackageExtender(
+                parcelPackage, smallCompartments,"SmallCompartment"
+            )
+
+            "Medium"-> withdrawPackageExtender(
+                parcelPackage, mediumCompartments,"MediumCompartment"
+            )
+
+            "Large"-> withdrawPackageExtender(
+                parcelPackage, largeCompartments,"LargeCompartment"
+            )
+
+            else -> ""
+        }
+    }
+    private fun hasPackage(packageItem:ParcelPackage):Boolean{
         for(p in packages){
             if(p == packageItem)
                 return true
         }
         return false
     }
-    fun openBox(packageItem:PackageItem):Boolean {
+    fun openBox(packageItem:ParcelPackage):Boolean {
         if (hasPackage(packageItem)) {
             isOpen = true
         }
         return isOpen
     }
-    fun addParcel(packageItem: PackageItem):Boolean{
-        if(packages.contains(packageItem)){
+    fun addPackageCompartmentWise(
+        packageItem: ParcelPackage,
+        compartmentArray: ArrayList<String>,
+        compartmentSizeMsg: String
+    ):String{
+        for (i in 0..<compartmentArray.count()){
+            if(compartmentArray[i] == ""){
+                compartmentArray[i] = packageItem.parcelID
+                packages.add(packageItem)
+                return compartmentSizeMsg+i.toString()
+            }
+        }
+        return ""
+    }
+    fun addParcel(parcelPackage: ParcelPackage):String{
+        if(packages.contains(parcelPackage)){
             print("Already has a parcel")
-            return false
         }
         else {
-            if(packages.count() < capacity())
-            packages.add(packageItem)
-            return true
+            if(packages.count() < capacity()){
+                return when(parcelPackage.size){
+                    "Small"-> addPackageCompartmentWise(
+                        parcelPackage, smallCompartments,"SmallCompartment"
+                    )
+
+                    "Medium"-> addPackageCompartmentWise(
+                        parcelPackage, mediumCompartments,"MediumCompartment"
+                    )
+
+                    "Large"-> addPackageCompartmentWise(
+                        parcelPackage, largeCompartments,"LargeCompartment"
+                    )
+
+                    else -> {
+                        ""
+                    }
+                }
+            }
         }
+        return ""
     }
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
