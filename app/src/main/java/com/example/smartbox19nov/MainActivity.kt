@@ -21,21 +21,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnLogin.setOnClickListener {
-            val email = R.id.editTextUsername.toString()
-            val password = R.id.editTextPassword.toString()
-
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                // TODO: Add login authentication logic
-                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, AdminPanel::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        btnLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
