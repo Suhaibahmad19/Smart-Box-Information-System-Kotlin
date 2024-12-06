@@ -31,7 +31,7 @@ class ViewLogsActivity : AppCompatActivity() {
     }
 
     private fun fetchOtpLogs() {
-        val url = "http://10.0.2.2:8080/api/v1/otp-logs" // Replace with the actual backend endpoint for OTP logs
+        val url = "https://sdb-backend.onrender.com/api/v1/otp-logs" // Replace with the actual backend endpoint for OTP logs
 
         Log.d("ViewLogsActivity", "Fetching OTP logs from URL: $url")
 
@@ -69,7 +69,7 @@ class ViewLogsActivity : AppCompatActivity() {
     }
 
     private fun fetchParcelLogs() {
-        val url = "http://10.0.2.2:8080/api/v1/get-parcels" // Replace with the actual backend endpoint for parcel logs
+        val url = "https://sdb-backend.onrender.com/api/v1/get-parcels" // Replace with the actual backend endpoint for parcel logs
 
         Log.d("ViewLogsActivity", "Fetching Parcel logs from URL: $url")
 

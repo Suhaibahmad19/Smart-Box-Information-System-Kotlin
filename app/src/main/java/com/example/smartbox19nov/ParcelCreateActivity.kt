@@ -79,7 +79,7 @@ class ParcelCreateActivity : AppCompatActivity() {
 
             // Make POST request to create-parcel endpoint
             val request = Request.Builder()
-                .url("http://10.0.2.2:8080/api/v1/create-parcel")
+                .url("https://sdb-backend.onrender.com/api/v1/create-parcel")
                 .post(requestBody)
                 .build()
 
@@ -112,7 +112,7 @@ class ParcelCreateActivity : AppCompatActivity() {
     }
 
     private fun fetchCustomers() {
-        val url = "http://10.0.2.2:8080/api/v1/get-users" // Backend endpoint for fetching users
+        val url = "https://sdb-backend.onrender.com/api/v1/get-users" // Backend endpoint for fetching users
 
         val request = Request.Builder()
             .url(url)
@@ -166,7 +166,7 @@ class ParcelCreateActivity : AppCompatActivity() {
     }
 
     private fun fetchDeliveryBoxes() {
-        val url = "http://10.0.2.2:8080/api/v1/get-delivery-boxes"
+        val url = "https://sdb-backend.onrender.com/api/v1/get-delivery-boxes"
 
         val request = Request.Builder()
             .url(url)

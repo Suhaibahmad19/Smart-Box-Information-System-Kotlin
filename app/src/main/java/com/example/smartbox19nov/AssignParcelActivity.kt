@@ -42,7 +42,7 @@ class AssignParcelActivity : AppCompatActivity() {
     }
 
     private fun fetchCouriers() {
-        val url = "http://10.0.2.2:8080/api/v1/get-users" // Backend endpoint for fetching users
+        val url = "https://sdb-backend.onrender.com/api/v1/get-users" // Backend endpoint for fetching users
 
         val request = Request.Builder()
             .url(url)
@@ -97,7 +97,7 @@ class AssignParcelActivity : AppCompatActivity() {
 
 
     private fun fetchParcels() {
-        val url = "http://10.0.2.2:8080/api/v1/get-parcels" // Replace with the actual backend endpoint for parcels
+        val url = "https://sdb-backend.onrender.com/api/v1/get-parcels" // Replace with the actual backend endpoint for parcels
 
         val request = Request.Builder()
             .url(url)
@@ -164,7 +164,7 @@ class AssignParcelActivity : AppCompatActivity() {
         val requestBody = RequestBody.create("application/json".toMediaType(), jsonObject.toString())
 
         val request = Request.Builder()
-            .url("http://10.0.2.2:8080/api/v1/assign-courier")
+            .url("https://sdb-backend.onrender.com/api/v1/assign-courier")
             .post(requestBody)
             .build()
 

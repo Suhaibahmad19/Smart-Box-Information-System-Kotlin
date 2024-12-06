@@ -33,7 +33,7 @@ class ManageUsersActivity : AppCompatActivity() {
     }
 
     private fun fetchUsers() {
-        val url = "http://10.0.2.2:8080/api/v1/get-users" // Replace with actual backend endpoint for users
+        val url = "https://sdb-backend.onrender.com/api/v1/get-users" // Replace with actual backend endpoint for users
 
         Log.d("ManageUsersActivity", "Fetching users from URL: $url")
 
