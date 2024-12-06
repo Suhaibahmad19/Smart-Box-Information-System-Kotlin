@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Parcel"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- User Spinner -->
+    <TextView
+        android:id="@+id/userLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select User:"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/customerSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:spinnerMode="dropdown" />
+
+    <!-- Dimensions Spinner -->
+    <TextView
+        android:id="@+id/dimensionsLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Parcel Size:"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/dimensionsSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:spinnerMode="dropdown" />
+
+    <!-- Destination Spinner -->
+    <TextView
+        android:id="@+id/destinationLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Destination:"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/destinationSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:spinnerMode="dropdown" />
+
+    <!-- Fragile Radio Group -->
+    <TextView
+        android:id="@+id/fragileLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Is the parcel fragile?"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <RadioGroup
+        android:id="@+id/fragileRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <RadioButton
+            android:id="@+id/fragileYesRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes" />
+
+        <RadioButton
+            android:id="@+id/fragileNoRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:layout_marginStart="16dp" />
+    </RadioGroup>
+
+    <!-- Parcel ID -->
+    <TextView
+        android:id="@+id/parcelIdLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Parcel ID:"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/parcelIdTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="#EEEEEE"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Create Parcel Button -->
+    <Button
+        android:id="@+id/createParcelButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Parcel"
+        android:backgroundTint="#3F51B5"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>
