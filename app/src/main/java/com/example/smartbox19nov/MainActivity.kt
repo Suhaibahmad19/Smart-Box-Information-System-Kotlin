@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -17,10 +18,11 @@ class MainActivity : AppCompatActivity() {
         btnTrackParcel.setOnClickListener {
             val intent = Intent(this, TrackParcelActivity::class.java)
             startActivity(intent)
+        }
 
-        loginButton.setOnClickListener {
-            val email = emailInput.text.toString()
-            val password = passwordInput.text.toString()
+        btnLogin.setOnClickListener {
+            val email = R.id.editTextUsername.toString()
+            val password = R.id.editTextPassword.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 // TODO: Add login authentication logic
