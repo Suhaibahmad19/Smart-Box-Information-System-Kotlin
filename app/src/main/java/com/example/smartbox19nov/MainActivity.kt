@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -25,14 +26,5 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-    }
-
-    fun showSmartBox(view: View)
-    {
-        val intent = Intent(this, SmartBoxEmulator::class.java)
-        var parcels = ArrayList<PackageItem>()
-        var sbox = SmartBox("1234", 2, parcels,false)
-        intent.putExtra("SMART_BOX", sbox) // Pass Parcelable object
-        startActivity(intent)
     }
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:weightSum="2">
+
+    <TextView
+        android:id="@+id/otpLogsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OTP Logs"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingBottom="8dp" />
+
+    <ScrollView
+        android:id="@+id/otpLogsScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#EEEEEE"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/otpLogsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No OTP logs available"
+            android:textSize="16sp" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/parcelLogsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Parcel Logs"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp" />
+
+    <ScrollView
+        android:id="@+id/parcelLogsScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#EEEEEE"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/parcelLogsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No parcel logs available"
+            android:textSize="16sp" />
+    </ScrollView>
+</LinearLayout>
