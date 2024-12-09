@@ -38,6 +38,8 @@
         <activity android:name=".AssignParcelActivity" />
         <activity android:name=".RiderPannelActivity" />
         <activity android:name=".SignupActivity"/>
+        <activity android:name=".CreateSmartBoxActivity" />
+
 
     </application>
 
