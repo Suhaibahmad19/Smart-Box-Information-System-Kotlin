@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.SearchView
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -15,21 +16,37 @@ class ManageUsersActivity : AppCompatActivity() {
 
     private lateinit var usersRecyclerView: RecyclerView
     private lateinit var userAdapter: UserAdapter
+    private lateinit var searchView: SearchView
     private val client = OkHttpClient()
     private val users = mutableListOf<User>()
+    private val filteredUsers = mutableListOf<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_users)
 
         usersRecyclerView = findViewById(R.id.usersRecyclerView)
-        userAdapter = UserAdapter(users)
+        searchView = findViewById(R.id.searchView)
+        userAdapter = UserAdapter(filteredUsers)
 
         usersRecyclerView.layoutManager = LinearLayoutManager(this)
         usersRecyclerView.adapter = userAdapter
 
         // Fetch users from backend
         fetchUsers()
+
+        // Set up SearchView listener
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                filterUsers(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterUsers(newText)
+                return false
+            }
+        })
     }
 
     private fun fetchUsers() {
@@ -57,6 +74,9 @@ class ManageUsersActivity : AppCompatActivity() {
                     responseBody?.let {
                         parseUsers(it)
                         runOnUiThread {
+                            // Initialize the filtered list with all users
+                            filteredUsers.clear()
+                            filteredUsers.addAll(users)
                             userAdapter.notifyDataSetChanged()
                         }
                     }
@@ -103,4 +123,17 @@ class ManageUsersActivity : AppCompatActivity() {
         }
     }
 
+    private fun filterUsers(query: String?) {
+        filteredUsers.clear()
+        if (query.isNullOrEmpty()) {
+            filteredUsers.addAll(users) // Show all users if query is empty
+        } else {
+            filteredUsers.addAll(users.filter { user ->
+                user.name.contains(query, ignoreCase = true) ||
+                        user.email.contains(query, ignoreCase = true) ||
+                        user.role.contains(query, ignoreCase = true)
+            })
+        }
+        userAdapter.notifyDataSetChanged()
+    }
 }

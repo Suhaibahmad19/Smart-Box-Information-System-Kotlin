@@ -37,6 +37,7 @@
         <activity android:name=".ViewSystemSettings" />
         <activity android:name=".AssignParcelActivity" />
         <activity android:name=".RiderPannelActivity" />
+        <activity android:name=".SignupActivity"/>
 
     </application>
 

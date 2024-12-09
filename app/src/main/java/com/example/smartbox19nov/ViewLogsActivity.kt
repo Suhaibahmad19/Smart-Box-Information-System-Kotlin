@@ -116,7 +116,7 @@ class ViewLogsActivity : AppCompatActivity() {
 
                 // Extract required fields
                 val otpId = jsonObject.optString("otpId", "Unknown OTP ID")
-                val phoneNumber = jsonObject.optString("phoneNumber", "Unknown Phone")
+                val phoneNumber = jsonObject.optString("phoneNumber", "03123456789")
                 val status = jsonObject.optString("status", "Unknown Status")
                 val error = if (jsonObject.isNull("error")) "NO" else "YES"
                 val timestamp = jsonObject.optLong("timestamp", 0L)
@@ -137,40 +137,57 @@ class ViewLogsActivity : AppCompatActivity() {
         }
     }
 
-
     private fun parseParcelLogs(jsonResponse: String): String {
         return try {
             val jsonObject = JSONObject(jsonResponse) // Parse the response as a JSONObject
-            val status = jsonObject.getString("status") // Optional: check the status
+            val status = jsonObject.optString("status", "ERROR") // Check the status field
             if (status != "SUCCESS") {
                 return "Error: Status not successful"
             }
 
-            val parcelsArray = jsonObject.getJSONArray("parcels") // Get the parcels array
+            val parcelsArray = jsonObject.optJSONArray("parcels") ?: return "No parcels available" // Get the parcels array
+            if (parcelsArray.length() == 0) {
+                return "No parcels available"
+            }
+
             val parcelLogs = StringBuilder()
 
             for (i in 0 until parcelsArray.length()) {
                 val parcelObject = parcelsArray.getJSONObject(i)
-                val parcelId = parcelObject.getString("parcelId")
-                val size = parcelObject.getString("size")
-                val destination = parcelObject.getString("destination")
-                val isFragile = parcelObject.getBoolean("isFragile")
-                val createdAt = parcelObject.getLong("createdAt")
-                val status = parcelObject.getString("status")
 
-                // Format the createdAt timestamp if needed (e.g., to human-readable date)
-                val createdAtDate = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
-                    .format(java.util.Date(createdAt))
+                // Extract fields with null safety
+                val parcelId = parcelObject.optString("parcelId", "Unknown Parcel ID")
+                val size = parcelObject.optString("size", "Unknown Size")
+                val destination = parcelObject.optString("destination", "Unknown Destination")
+                val isFragile = parcelObject.optBoolean("isFragile", false)
+                val createdAt = parcelObject.optLong("createdAt", 0L)
+                val status = parcelObject.optString("status", "Unknown Status")
 
+                // Format the createdAt timestamp
+                val createdAtDate = if (createdAt > 0) {
+                    java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
+                        .format(java.util.Date(createdAt))
+                } else {
+                    "Unknown Date"
+                }
+
+                // Append parsed data to the logs
                 parcelLogs.append(
-                    "Parcel-ID: $parcelId, Size: $size, Destination: $destination, Fragile: $isFragile, Created At: $createdAtDate, Status: $status\n"
+                    "Parcel-ID: $parcelId\n" +
+                            "Size: $size\n" +
+                            "Destination: $destination\n" +
+                            "Fragile: ${if (isFragile) "Yes" else "No"}\n" +
+                            "Created At: $createdAtDate\n" +
+                            "Status: $status\n\n"
                 )
             }
 
             if (parcelLogs.isEmpty()) "No parcel logs available" else parcelLogs.toString()
         } catch (e: Exception) {
             Log.e("ViewLogsActivity", "Error parsing Parcel logs: ${e.message}")
-            "Error parsing Parcel logs"
+            "Error parsing Parcel logs: ${e.message}"
         }
     }
+
+
 }
