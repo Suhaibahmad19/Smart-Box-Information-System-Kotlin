@@ -21,5 +21,11 @@ class SuperAdminActivity : AppCompatActivity() {
         assignParcelButton.setOnClickListener {
             startActivity(Intent(this, AssignParcelActivity::class.java))
         }
+
+        // Create Smart Box button
+        val createSmartBoxButton: Button = findViewById(R.id.createSmartBoxButton)
+        createSmartBoxButton.setOnClickListener {
+            startActivity(Intent(this, CreateSmartBoxActivity::class.java))
+        }
     }
 }

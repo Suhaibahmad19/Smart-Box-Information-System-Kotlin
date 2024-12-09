@@ -52,4 +52,20 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp" />
 
+    <!-- Create Smart-Box Button -->
+    <Button
+        android:id="@+id/createSmartBoxButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Create Smart-Box"
+        android:textColor="#FFFFFF"
+        android:padding="16dp"
+        android:background="@drawable/rounded_button"
+        app:layout_constraintTop_toBottomOf="@id/assignParcelToRiderButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
