@@ -73,6 +73,7 @@ class ParcelCreateActivity : AppCompatActivity() {
                 put("destination", selectedDestination)
                 put("isFragile", isFragile.toString())
                 put("deliveryBoxId", deliveryBoxId)
+                put("parcelId", parcelId) // Include the generated parcelId
             }
 
             val requestBody = RequestBody.create("application/json".toMediaType(), jsonObject.toString())
@@ -108,7 +109,10 @@ class ParcelCreateActivity : AppCompatActivity() {
     }
 
     private fun generateParcelId(): String {
-        return "PID-${System.currentTimeMillis()}"
+        val characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return (1..6)
+            .map { characters.random() }
+            .joinToString("")
     }
 
     private fun fetchCustomers() {

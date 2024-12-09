@@ -1,40 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#424242">
+    android:background="#F5F5F5"
+    android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/logoTrackParcelPage"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Track Your Parcels"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#3F51B5"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/white_trans"
-        android:contentDescription="Logo" />
+        android:layout_marginTop="16dp" />
 
-
-
-    <EditText
-        android:id="@+id/editTextTrackingId"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:hint="Enter Your Parcel Tracking ID"
-        android:background="@drawable/rounded_input"
-        android:layout_below="@id/logoTrackParcelPage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:textColor="#000000"
-        android:padding="10dp" />
-
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:text="Search"
-        android:background="@drawable/rounded_button"
-        android:textColor="#FFFFFF"
-        android:layout_below="@id/editTextTrackingId"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+    <!-- RecyclerView for displaying parcels -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/parcelsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/titleTextView"
+        android:layout_marginTop="16dp"
+        android:background="#FFFFFF"
+        android:elevation="4dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 </RelativeLayout>
