@@ -22,7 +22,7 @@
         android:textColor="#FFFFFF"
         android:layout_below="@id/logoTrackParcelPage"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp" />
+        android:layout_marginTop="100dp" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -35,6 +35,26 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" />
 
+    <Button
+        android:id="@+id/btnAdmin"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="I am admin"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/btnLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 
+    <Button
+        android:id="@+id/btnRider"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="I am rider"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/btnAdmin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 
 </RelativeLayout>

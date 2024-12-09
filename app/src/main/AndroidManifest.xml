@@ -36,6 +36,7 @@
         <activity android:name=".ViewLogsActivity" />
         <activity android:name=".ViewSystemSettings" />
         <activity android:name=".AssignParcelActivity" />
+        <activity android:name=".RiderPannelActivity" />
 
     </application>
 

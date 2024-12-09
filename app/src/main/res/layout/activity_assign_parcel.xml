@@ -59,9 +59,7 @@
             android:id="@+id/assignButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Assign Parcel"
-            android:backgroundTint="#3F51B5"
-            android:textColor="#FFFFFF" />
+            android:text="Assign Parcel"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
