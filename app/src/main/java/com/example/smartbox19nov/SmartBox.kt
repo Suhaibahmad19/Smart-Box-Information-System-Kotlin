@@ -2,6 +2,31 @@ package com.example.smartbox19nov
 import android.os.Parcel
 import android.os.Parcelable
 
+class ParcelPackage (
+    val parcelId:String,
+    val size:String
+): Parcelable{
+    constructor(parcel: Parcel) : this(
+        parcel.readString().toString(),
+        parcel.readString().toString()
+    )
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(parcelId)
+        parcel.writeString(size)
+    }
+
+    override fun describeContents(): Int = 0
+
+    companion object CREATOR : Parcelable.Creator<ParcelPackage> {
+        override fun createFromParcel(parcel: Parcel): ParcelPackage {
+            return ParcelPackage(parcel)
+        }
+
+        override fun newArray(size: Int): Array<ParcelPackage?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
 class SmartBox(
     val id: String,
     val type:Int,
@@ -49,7 +74,7 @@ class SmartBox(
         compartmentSizeMsg:String
     ):String {
         for (i in 0..<arrayOfCompartments.count()){
-            if(arrayOfCompartments[i] == parcelPackage.parcelID) {
+            if(arrayOfCompartments[i] == parcelPackage.parcelId) {
                 packages.remove(parcelPackage)
                 arrayOfCompartments[i] = ""
                 return compartmentSizeMsg+i.toString()
@@ -94,7 +119,7 @@ class SmartBox(
     ):String{
         for (i in 0..<compartmentArray.count()){
             if(compartmentArray[i] == ""){
-                compartmentArray[i] = packageItem.parcelID
+                compartmentArray[i] = packageItem.parcelId
                 packages.add(packageItem)
                 return compartmentSizeMsg+i.toString()
             }
@@ -147,3 +172,4 @@ class SmartBox(
         }
     }
 }
+

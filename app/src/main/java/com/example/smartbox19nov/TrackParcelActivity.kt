@@ -24,7 +24,7 @@ class TrackParcelActivity : AppCompatActivity() {
 
         parcelsRecyclerView = findViewById(R.id.parcelsRecyclerView)
         parcelsRecyclerView.layoutManager = LinearLayoutManager(this)
-        parcelsRecyclerView.adapter = ParcelAdapter(parcels)
+        parcelsRecyclerView.adapter = ParcelAdapter(this,parcels)
 
         fetchParcels()
     }

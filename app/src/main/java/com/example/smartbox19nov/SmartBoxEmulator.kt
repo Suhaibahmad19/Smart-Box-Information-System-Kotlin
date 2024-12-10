@@ -1,9 +1,12 @@
 package com.example.smartbox19nov
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,22 +14,22 @@ import androidx.core.view.WindowInsetsCompat
 
 
 class SmartBoxEmulator : AppCompatActivity() {
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val sbox: SmartBox? = intent.getParcelableExtra("SMART_BOX")
-        val user:User? = intent.getParcelableExtra("USER")
-        val parcelPackage:ParcelPackage? = intent.getParcelableExtra("PARCEL_PACKAGE")
-        print("sbox id is " + sbox?.type)
-        when(user?.role){
-            "Courier"->{
-                print("nothing implemented here yet")
-            }
-            "Client"->{
-                clientSmartBox(sbox,parcelPackage)
+        val parcelId: String? = intent.getStringExtra("parcelId")
+        val parcelDestination:String? = intent.getStringExtra("parcelDestination")
+        val callFrom:String? = intent.getStringExtra("CALL_FROM")
+        when(callFrom){
+            "ParcelDeliveryByRider"->{
+                setContentView(R.layout.activity_smart_box_emulator_type2)
+                val vaultButton: Button = findViewById(R.id.vaultButton)
+                val notifier = findViewById<TextView>(R.id.notifier)
+                vaultButton.text = "Parcel $parcelId Delivered"
+                notifier.text = "Thank You For Your Service. You may go now!"
             }
         }
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -44,10 +47,10 @@ class SmartBoxEmulator : AppCompatActivity() {
     private fun clientSmartBox(sbox:SmartBox,parcelPackage: ParcelPackage){
         startTheActivity(sbox)
         when(sbox.withdrawPackage(parcelPackage)){
-            true->{
+            "Small"->{
 
             }
-            false->{
+            ""->{
 
             }
         }
@@ -56,11 +59,11 @@ class SmartBoxEmulator : AppCompatActivity() {
     fun changeColor(view: View) {
         view.setBackgroundColor(Color.BLUE);
     }
-    private fun makePackages():ArrayList<PackageItem>{
-        val dummyPackages = ArrayList<PackageItem>()
+    private fun makePackages():ArrayList<ParcelPackage>{
+        val dummyPackages = ArrayList<ParcelPackage>()
         for (i in 1..4){
             i.toString()
-            val p = PackageItem(i.toString())
+            val p = ParcelPackage(i.toString(),"Medium")
             dummyPackages.add(p)
         }
         return dummyPackages

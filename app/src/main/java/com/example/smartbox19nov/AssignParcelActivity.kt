@@ -42,7 +42,8 @@ class AssignParcelActivity : AppCompatActivity() {
     }
 
     private fun fetchCouriers() {
-        val url = "https://sdb-backend.onrender.com/api/v1/get-users" // Backend endpoint for fetching users
+        val url =
+            "https://sdb-backend.onrender.com/api/v1/get-users" // Backend endpoint for fetching users
 
         val request = Request.Builder()
             .url(url)
@@ -52,7 +53,11 @@ class AssignParcelActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("AssignParcelActivity", "Failed to fetch couriers: ${e.message}")
                 runOnUiThread {
-                    Toast.makeText(this@AssignParcelActivity, "Failed to load couriers", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@AssignParcelActivity,
+                        "Failed to load couriers",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -62,7 +67,11 @@ class AssignParcelActivity : AppCompatActivity() {
                     responseBody?.let {
                         parseCouriers(it)
                         runOnUiThread {
-                            val adapter = ArrayAdapter(this@AssignParcelActivity, android.R.layout.simple_spinner_item, ridersList)
+                            val adapter = ArrayAdapter(
+                                this@AssignParcelActivity,
+                                android.R.layout.simple_spinner_item,
+                                ridersList
+                            )
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                             riderSpinner.adapter = adapter
                         }
@@ -95,9 +104,9 @@ class AssignParcelActivity : AppCompatActivity() {
     }
 
 
-
     private fun fetchParcels() {
-        val url = "https://sdb-backend.onrender.com/api/v1/get-parcels" // Replace with the actual backend endpoint for parcels
+        val url =
+            "https://sdb-backend.onrender.com/api/v1/get-parcels" // Replace with the actual backend endpoint for parcels
 
         val request = Request.Builder()
             .url(url)
@@ -107,7 +116,11 @@ class AssignParcelActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("AssignParcelActivity", "Failed to fetch parcels: ${e.message}")
                 runOnUiThread {
-                    Toast.makeText(this@AssignParcelActivity, "Failed to load parcels", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@AssignParcelActivity,
+                        "Failed to load parcels",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -117,7 +130,11 @@ class AssignParcelActivity : AppCompatActivity() {
                     responseBody?.let {
                         parseParcels(it)
                         runOnUiThread {
-                            val adapter = ArrayAdapter(this@AssignParcelActivity, android.R.layout.simple_spinner_item, parcelsList)
+                            val adapter = ArrayAdapter(
+                                this@AssignParcelActivity,
+                                android.R.layout.simple_spinner_item,
+                                parcelsList
+                            )
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                             parcelSpinner.adapter = adapter
                         }
@@ -149,22 +166,26 @@ class AssignParcelActivity : AppCompatActivity() {
         val selectedRiderName = riderSpinner.selectedItem.toString()
         val selectedParcelId = parcelSpinner.selectedItem.toString()
 
-        val riderId = riderIdsMap[selectedRiderName] ?: ""
+        val courierId = riderIdsMap[selectedRiderName] ?: ""
         val parcelId = parcelIdsMap[selectedParcelId] ?: ""
 
-        if (riderId.isEmpty() || parcelId.isEmpty()) {
+        if (courierId.isEmpty() || parcelId.isEmpty()) {
             Toast.makeText(this, "Please select a rider and a parcel", Toast.LENGTH_SHORT).show()
             return
         }
 
         val jsonObject = JSONObject()
-        jsonObject.put("riderId", riderId)
+        jsonObject.put("courierId", courierId)
         jsonObject.put("parcelId", parcelId)
 
-        val requestBody = RequestBody.create("application/json".toMediaType(), jsonObject.toString())
+        val requestBody =
+            RequestBody.create("application/json".toMediaType(), jsonObject.toString())
+
+        val url = "https://sdb-backend.onrender.com/api/v1/assign-courier" // Ensure this is correct
+        Log.d("AssignParcelActivity", "URL: $url, Payload: $jsonObject")
 
         val request = Request.Builder()
-            .url("https://sdb-backend.onrender.com/api/v1/assign-courier")
+            .url(url)
             .post(requestBody)
             .build()
 
@@ -172,22 +193,38 @@ class AssignParcelActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("AssignParcelActivity", "Failed to assign parcel: ${e.message}")
                 runOnUiThread {
-                    Toast.makeText(this@AssignParcelActivity, "Failed to assign parcel", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@AssignParcelActivity,
+                        "Failed to assign parcel",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onResponse(call: Call, response: Response) {
+                val responseBody = response.body?.string()
+                Log.d("AssignParcelActivity", "Response: ${response.code}, Body: $responseBody")
+
                 if (response.isSuccessful) {
                     runOnUiThread {
-                        Toast.makeText(this@AssignParcelActivity, "Parcel assigned successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@AssignParcelActivity,
+                            "Parcel assigned successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
-                    Log.e("AssignParcelActivity", "Error assigning parcel: ${response.code}")
                     runOnUiThread {
-                        Toast.makeText(this@AssignParcelActivity, "Error: ${response.code}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@AssignParcelActivity,
+                            "Error: ${response.code}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
         })
     }
+
+
 }

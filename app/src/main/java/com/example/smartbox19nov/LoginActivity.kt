@@ -73,7 +73,9 @@ class LoginActivity : AppCompatActivity() {
                                     }
                                     "Courier" -> {
                                         Toast.makeText(this@LoginActivity, "Welcome Rider!", Toast.LENGTH_SHORT).show()
-                                        startActivity(Intent(this@LoginActivity, RiderPannelActivity::class.java))
+                                        val intent = Intent(Intent(this@LoginActivity, RiderPannelActivity::class.java))
+                                        intent.putExtra("email", username)
+                                        startActivity(intent)
                                     }
                                     "Customer" -> {
                                         Toast.makeText(this@LoginActivity, "Welcome User!", Toast.LENGTH_SHORT).show()

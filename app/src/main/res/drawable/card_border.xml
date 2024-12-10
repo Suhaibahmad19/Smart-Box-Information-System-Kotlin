@@ -1,0 +1,6 @@
+<!-- card_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/white"/> <!-- Background color inside the CardView -->
+    <stroke android:color="#000000" android:width="2dp"/> <!-- Border color and width -->
+    <corners android:radius="8dp"/> <!-- Corner radius to match CardView corner radius -->
+</shape>
